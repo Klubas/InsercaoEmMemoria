@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "lista.h"
+#include "includes/lista.h"
 
 int insereLista(int valor, No *lista){
 	No *atual;
