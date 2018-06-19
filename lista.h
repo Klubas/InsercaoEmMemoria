@@ -4,10 +4,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct no{
+struct no{
 	int dado;
 	struct no *prox;
-} No ;
+};
+
+typedef struct no No;
 
 int insereLista(int valor, No *);
 

@@ -45,5 +45,3 @@ void listar_mem(No *mem) {
 }
 
 
-
-

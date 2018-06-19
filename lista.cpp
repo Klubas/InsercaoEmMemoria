@@ -40,7 +40,6 @@ void imprimeLista(No *lista){
 	}
 }
 
-
 int removeLista(int posicao, No *lista){
 	int i = 0;
 	No *anterior = lista;

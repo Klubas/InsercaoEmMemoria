@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include "memoria.h"
+#include "lista.h"
 
-Mem mem;
+No memff, membf;
 
 int menu(){
 	/*criar_mem(mem0, 1000);
@@ -24,10 +25,11 @@ int main(){
 	Mem *mptr = &memoria;
 */
 
-	criar_mem(10, &mem.ff);
-	criar_mem(20, &mem.bf);
-	listar_mem(&mem.ff);
-	imprimeLista(&mem.bf);
+	criar_mem(10, &memff);
+	criar_mem(20, &membf);
+	listar_mem(&memff);
+    listar_mem(&membf);
+
 
 	//printf("[%d]", mem0.dado);
 
