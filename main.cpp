@@ -15,10 +15,10 @@ int menu(){
 
 int main(){
 
-	criar_mem(10, &mem.ff);
-	criar_mem(20, &mem.bf);
-	listar_mem(&mem.ff);
-    listar_mem(&mem.bf);
+	criar(10, &mem.ff);
+	criar(20, &mem.bf);
+	estado(&mem.ff);
+    estado(&mem.bf);
 
 
 	/*while(menu() > 0);*/

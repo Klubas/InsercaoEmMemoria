@@ -1,4 +1,4 @@
-#ifndef MEMORIA_H    // To make sure you don't declare the function more than once by including the header multiple times.
+#ifndef MEMORIA_H  
 #define MEMORIA_H
 
 #include <stdio.h>
@@ -15,12 +15,12 @@ struct mem{
 
 typedef struct mem Mem;
 
-void criar_mem(int, No *);
+void criar(int, No *);
 
-int criar_processo(int, int);
+int novo_processo(int, int);
 
 int matar_processo(int);
 
-void listar_mem(No *);
+void estado(No *);
 
 #endif
