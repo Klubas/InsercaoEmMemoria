@@ -16,20 +16,20 @@ Opção 4 - Finalizar aplicação
 
 Observações:
 
-	- considerar uma estrutura de memória independente para cada método de alocação;
+- Considerar uma estrutura de memória independente para cada método de alocação;
 
-	- para cada inserção definir uma identificação de processo e perguntar ao usuário seu tamanho;
+- Para cada inserção definir uma identificação de processo e perguntar ao usuário seu tamanho;
 
-	- para cada remoção questionar ao usuário a identificação do processo a ser removido;
+- Para cada remoção questionar ao usuário a identificação do processo a ser removido;
 
-	- para cada inserção/remoção, realizar - SE POSSÍVEL - nas quatro memórias 
-	(independentemente);
+- Para cada inserção/remoção, realizar - SE POSSÍVEL - nas quatro memórias 
+(independentemente);
 
-	- ao listar a memória, tratar o estado de maneira independente para cada uma das quatro memórias 
-	(os quatro algoritmos de alocação);
+- Ao listar a memória, tratar o estado de maneira independente para cada uma das quatro memórias 
+(os quatro algoritmos de alocação);
 
-	- entender como "estado da memória" uma situação em que ela possui processos e lacunas. 
-	Aquele com identificação de processo e tamanho e esta com um tamanho;
+- Entender como "estado da memória" uma situação em que ela possui processos e lacunas. 
+Aquele com identificação de processo e tamanho e esta com um tamanho;
 	
 
 # Compilar
