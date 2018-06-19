@@ -10,7 +10,6 @@ void criar(int tam_mem, No *mem) {
 	}
 }
 
-//retornar numero da memoria, e se der erro retornar numero da memoria *(-1)
 int novo_processo(int tam, int tipo){
 	
 	return 0;

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "includes/memoria.h"
 
+int pid;
 Mem mem;
 
 int menu(){

@@ -61,10 +61,8 @@ int removeLista(int posicao, No *lista){
 		}
 		if(posicao >= i) return -3; //posicao invalida
 	}
-
-	printf("Elemento %d removido.\n", posicao);
 	delete(aux);
-	return 0;
+	return 0; //elemento removido
 }
 
 int buscaLista(int valor, No *lista){
