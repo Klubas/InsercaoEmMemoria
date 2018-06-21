@@ -2,7 +2,9 @@
 #include "includes/memoria.h"
 
 int pid;
-Mem mem;
+Mem mem0, mem1, mem2, mem3;
+
+typedef struct processo Processo;
 
 int menu(){
 	/*criar_mem(mem0, 1000);
@@ -16,10 +18,10 @@ int menu(){
 
 int main(){
 
-	criar(10, &mem.ff);
-	criar(20, &mem.bf);
-	estado(&mem.ff);
-    estado(&mem.bf);
+	criar(10, &mem0);
+	criar(20, &mem1);
+	estado(&mem0);
+    estado(&mem1);
 
 
 	/*while(menu() > 0);*/

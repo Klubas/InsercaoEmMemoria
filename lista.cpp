@@ -65,29 +65,34 @@ int removeLista(int posicao, No *lista){
 	return 0; //elemento removido
 }
 
-int buscaLista(int valor, No *lista){
+void alteraDado(int novo_valor, No *no){
+	no->dado=novo_valor;
+}
+
+No buscaLista(int valor, No *lista){
 	int i = 0;
 	No *aux = lista;
 	while(aux != NULL){
 		if(aux->dado == valor){
-			return i; //achou valor (primeira vez) i++;
+			return *aux; //achou valor (primeira vez) i++;
 		}
 		aux=aux->prox;
 	}
+	return *lista;
 }
 
 int recuperaLista(int posicao, No *lista){
 	int i = 1;
 	No *aux = lista;
 
-	if(aux == NULL) return -1; ///lista vazia
-	if(posicao < 0) return -2; //posicao invalida 
+	if(aux == NULL) return -1; 			//lista vazia
+	if(posicao < 0) return -2; 			//posicao invalida 
 
 	while(aux != NULL && i <= posicao){
 		aux=aux->prox;
 		i++;
 	}
 
-	if (aux != NULL) return aux->dado; //achou
-	else return -2; //posicao invalida
+	if (aux != NULL) return aux->dado; 	//achou
+	else return -2; 					//posicao invalida
 }

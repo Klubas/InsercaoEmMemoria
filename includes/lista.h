@@ -17,7 +17,9 @@ void imprimeLista(No *);
 
 int removeLista(int, No *);
 
-int buscaLista(int, No *);
+void alteraDado(int, No *);
+
+No buscaLista(int, No *);
 
 int recuperaLista(int, No *);
 

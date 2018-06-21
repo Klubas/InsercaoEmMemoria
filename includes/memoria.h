@@ -7,13 +7,17 @@
 
 struct mem{
 	int tam;
-	No bf;
-	No ff;
-	No wf;
-	No nf;
+	char tipo;
+	No inicio;
+};
+struct processo{
+	int tam;
+	No inicio;
+	No fim;
 };
 
 typedef struct mem Mem;
+typedef struct processo Processo;
 
 void criar(int, No *);
 
