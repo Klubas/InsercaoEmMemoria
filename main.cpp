@@ -2,10 +2,10 @@
 #include "includes/memoria.h"
 #include "includes/processo.h"
 
+int pid = 1;
 
-int pid = 0;
 Mem mem0, mem1, mem2, mem3;
-Processo proc;
+
 
 int menu(){
 	/*criar_mem(mem0, 1000);
@@ -16,6 +16,7 @@ int menu(){
 	return 0;
 }
 
+//define o tamanho das memórias
 void init_mem(int tam){
 	mem0.tam = tam;
 	mem1.tam = tam;
@@ -43,6 +44,7 @@ void init_mem(int tam){
 	mem3.inicio = *mem3.inicio.prox;
 }
 
+//mostra qual o estado das memórias
 void mostrar_mem(){
 	estado(&mem0);
 	estado(&mem1);
@@ -50,27 +52,34 @@ void mostrar_mem(){
 	estado(&mem3);
 }
 
-void construir_processo(int tam){
-	proc.pid = pid;
-	proc.tam = tam;
+//insere o processo criado em todas as memórias
+void inserir_processos(int tam_processo){
+	Processo* p = construir_processo(tam_processo, pid);
+	novo_processo(p, &mem0);
+	novo_processo(p, &mem1);
+	novo_processo(p, &mem2);
+	novo_processo(p, &mem3);
+	pid = pid + 1;
+	lista_processos();
 }
 
-void inserir_processos(int tam_processo){
-	construir_processo(tam_processo);
-	novo_processo(&proc, &mem0);
-	pid = pid + 1;
+//mata o processo desejado em todas as memórias
+void matar_processos(int pid){
+	matar_processo(pid, &mem0);
+	matar_processo(pid, &mem1);
+	matar_processo(pid, &mem2);
+	matar_processo(pid, &mem3);
+	lista_processos();
 }
 
 int main(){
+
 	init_mem(50);
 
 	mostrar_mem();
 
-	inserir_processos(3);
+	inserir_processos(6);
 
-	mostrar_mem();
-
-	matar_processo(0, &mem0);
 
 	mostrar_mem();
 

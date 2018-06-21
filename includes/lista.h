@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+//estrutura da lista, formada por nós
 struct no{
 	int dado;
 	struct no *prox;
@@ -11,18 +12,30 @@ struct no{
 
 typedef struct no No;
 
-int insereLista(int valor, No *lista, int ordenada);
+//insere dado na lista de forma ordenada ou não
+int insereLista(int valor, No *lista, int ordenada); 
 
-No buscaLista(int valor, No *lista);
+//procura um valor na lista e retorna qual o nó
+No buscaLista(int valor, No *lista); 
 
-int buscaListaPos(int, No *);
+//procura um valor e retorna a posição
+int buscaListaPos(int, No *); 
 
-void alteraDado(int novo_valor, No *lista);
+//encontra um valor na posicao informada
+int recuperaListaValor(int posicao, No *lista); 
 
-void imprimeLista(No *lista);
+//retorna o no na posicao informada
+No recuperaLista(int posicao, No *lista);
 
-int removeLista(int posicao, No *lista);
+//modifica um valor em um no da lista
+void alteraDado(int novo_valor, No *lista);	
 
-int recuperaLista(int posicao, No *lista);
+//imprime toda a lista
+
+void imprimeLista(No *lista); 
+
+//remove o valor na posicao informada
+int removeLista(int posicao, No *lista); 
+
 
 #endif

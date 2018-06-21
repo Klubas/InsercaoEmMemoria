@@ -6,20 +6,38 @@
 #include "lista.h"
 #include "processo.h"
 
-typedef struct mem{
-	int tam;
+//define estrutura de uma memória
+ struct mem{
+	int tam = 0;
+	int tam_ocupado = 0;
 	char tipo;
-	int lacunas;
-	int processos;
+	int lacunas = 1;
+	int processos = 0;
 	No inicio;
-} Mem;
+};
 
-void criar(Mem *mem);
+struct lacuna{
+	int tam;
+	No inicio;
+	No prox;
+};
 
-int novo_processo(Processo *proc, Mem *mem);
+typedef struct no Lacuna;
+typedef struct mem Mem ;
 
-int matar_processo(int, Mem *mem);
+//cria o espaço na memoria desejada
+void criar(Mem *mem); 
 
-void estado(Mem *);
+//cria um novo processo na memoria desejada
+int novo_processo(Processo *proc, Mem *mem); 
+
+//elimina um processo na memoria desejada
+int matar_processo(int, Mem *mem); 
+
+//retorna qual é o estado da memória
+void estado(Mem *);	
+
+//lista todos os processos criados e não-matados
+void lista_processos();
 
 #endif

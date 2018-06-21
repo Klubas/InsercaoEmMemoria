@@ -5,11 +5,15 @@
 #include <stdlib.h>
 #include "lista.h"
 
+//define a estrutura de um processo
 struct processo{
-    int pid;
-    int tam;
+    int pid = 0;
+    int tam = 0;
 };
 
 typedef struct processo Processo;
+
+//construtor de um processo
+Processo* construir_processo(int tam, int pid); 
 
 #endif

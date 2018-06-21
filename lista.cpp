@@ -13,7 +13,8 @@ int insereLista(int valor, No *lista, int ordenada){
 			anterior = atual;
 			atual = atual->prox;
 		}
-	} else {
+		//if (valor == atual->dado) return 0;
+	} else if (!ordenada){
 		while(atual != NULL){
 			anterior = atual;
 			atual = atual->prox;
@@ -101,7 +102,7 @@ int buscaListaPos(int valor, No *lista){
 	return -1;
 }
 
-int recuperaLista(int posicao, No *lista){
+int recuperaListaValor(int posicao, No *lista){
 	int i = 1;
 	No *aux = lista;
 
@@ -115,4 +116,20 @@ int recuperaLista(int posicao, No *lista){
 
 	if (aux != NULL) return aux->dado; 	//achou
 	else return -2; 					//posicao invalida
+}
+
+No recuperaLista(int posicao, No *lista){
+	int i = 1;
+	No *aux = lista;
+
+	if(aux == NULL) return *aux; 			//lista vazia
+
+	while(aux != NULL && i <= posicao){
+		aux=aux->prox;
+		i++;
+	}
+
+	if (aux != NULL) return *aux; 	//achou
+	else printf("NULL\n");
+	return *aux->prox; 					//posicao invalida
 }
