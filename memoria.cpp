@@ -100,15 +100,25 @@ void lista_processos(){
 	printf("Processos: ");
 	imprimeLista(&processos);
 }
+	
+No percorre(No *no){
+	//fazer logica ligando duas listas de nós com um terceiro *ptr (lacunas(tamanhos) e lacunas(nos))
+	percorre(&no->prox);
+}
 
 void contar_lacunas(Mem *mem){
-	int i = 0;
+	int i = 0, j = 0;
 	No aux = mem->inicio;
 	while(i < mem->tam){
-		if(aux->dado == VAZIO) i++;
-		else {
+		
+		if(aux->dado == VAZIO){
+			i++;
+			if(i==1 && j > 1){
+				//liga as duas listas
+			}
+		} else {
 			insereLista(i, &lacunas, 1);
 			i = 0;
-		}
+		}j++;
 	}
 }
