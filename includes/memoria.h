@@ -4,27 +4,22 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "lista.h"
+#include "processo.h"
 
-struct mem{
+typedef struct mem{
 	int tam;
 	char tipo;
+	int lacunas;
+	int processos;
 	No inicio;
-};
-struct processo{
-	int tam;
-	No inicio;
-	No fim;
-};
+} Mem;
 
-typedef struct mem Mem;
-typedef struct processo Processo;
+void criar(Mem *mem);
 
-void criar(int, No *);
+int novo_processo(Processo *proc, Mem *mem);
 
-int novo_processo(int, int);
+int matar_processo(int, Mem *mem);
 
-int matar_processo(int);
-
-void estado(No *);
+void estado(Mem *);
 
 #endif

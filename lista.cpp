@@ -8,7 +8,7 @@ int insereLista(int valor, No *lista){
 	No *aux;
 	atual = lista;
 
-	while(atual != NULL && atual->dado < valor) {
+	while(atual != NULL && atual->dado < valor){
 		anterior = atual;
     	atual = atual->prox;
   	}
@@ -28,16 +28,17 @@ int insereLista(int valor, No *lista){
 void imprimeLista(No *lista){
 	No *aux;
 	aux = lista;
+	printf("[ ");
 	if (aux == NULL) {
 		printf("Lista vazia.\n");
 	} else {
-		printf("[ ");
-		do{
+		while(aux != NULL){
 			printf("%d ", aux->dado);
 			aux = aux->prox;
-		}while(aux != NULL);
-		printf(" ]");
+		}
+		
 	}
+	printf("]\n");
 }
 
 int removeLista(int posicao, No *lista){
@@ -66,7 +67,7 @@ int removeLista(int posicao, No *lista){
 }
 
 void alteraDado(int novo_valor, No *no){
-	no->dado=novo_valor;
+	no->dado=novo_valor;	//troca o dado do No por novo_valor
 }
 
 No buscaLista(int valor, No *lista){

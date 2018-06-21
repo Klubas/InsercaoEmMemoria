@@ -34,4 +34,4 @@ Aquele com identificação de processo e tamanho e esta com um tamanho;
 
 # Compilar
 
->g++ -o main.exe main.cpp  memoria.cpp lista.cpp
+>g++ -o main.exe main.cpp  memoria.cpp lista.cpp processo.cpp
