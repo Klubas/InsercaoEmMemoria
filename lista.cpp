@@ -2,16 +2,23 @@
 #include <stdlib.h>
 #include "includes/lista.h"
 
-int insereLista(int valor, No *lista){
+int insereLista(int valor, No *lista, int ordenada){
 	No *atual;
 	No *anterior = NULL;
 	No *aux;
 	atual = lista;
 
-	while(atual != NULL && atual->dado < valor){
-		anterior = atual;
-    	atual = atual->prox;
-  	}
+	if (ordenada && atual->dado < valor){
+		while(atual != NULL){
+			anterior = atual;
+			atual = atual->prox;
+		}
+	} else {
+		while(atual != NULL){
+			anterior = atual;
+			atual = atual->prox;
+		}
+	}
 
   	aux = new(No);
   	aux->dado = valor;
@@ -71,7 +78,6 @@ void alteraDado(int novo_valor, No *no){
 }
 
 No buscaLista(int valor, No *lista){
-	int i = 0;
 	No *aux = lista;
 	while(aux != NULL){
 		if(aux->dado == valor){
@@ -79,7 +85,20 @@ No buscaLista(int valor, No *lista){
 		}
 		aux=aux->prox;
 	}
-	return *lista;
+	return *aux;
+}
+
+int buscaListaPos(int valor, No *lista){
+	int i = 0;
+	No *aux = lista;
+	while(aux != NULL){
+		if(aux->dado == valor){
+			return i; //achou valor (primeira vez) i++;
+		}
+		aux=aux->prox;
+		i++;
+	}
+	return -1;
 }
 
 int recuperaLista(int posicao, No *lista){

@@ -5,45 +5,42 @@
 #include "includes/memoria.h"
 #include "includes/processo.h"
 
+No processos;
+
 void criar(Mem *mem) {
 	int i;
-	for(i = 0; i < mem->tam; i++){
-		insereLista(-1, &mem->inicio);
+	for(i = mem->tam; i > 0; i--){
+		insereLista(-1, &mem->inicio, 0)	;
 	}
 }
 
 int novo_processo(Processo *proc, Mem *mem) {
 	int i;
 	No *aux = &mem->inicio;
-
 	if(proc->tam > mem->tam){
 		return -1;
 	}
-
 	switch (mem->tipo){
 		case 'f': //first fit
-			proc->inicio = aux;
 			for(i = 0; i < proc->tam; i++){
-				alteraDado(proc->pid, aux);
+				alteraDado(proc->pid, aux);	
 				aux=aux->prox;
 			}
+			return 1;
 			break;
 		case 'b': //best fit
-			proc->inicio = aux;
 			for(i = 0; i < proc->tam; i++){
 				alteraDado(proc->pid, aux);
 				aux=aux->prox;
 			}
 			break;
 		case 'w': //worst fit
-			proc->inicio = aux;
 			for(i = 0; i < proc->tam; i++){
 				alteraDado(proc->pid, aux);
 				aux=aux->prox;
 			}
 			break;
 		case 'n': //next fit
-			proc->inicio = aux;
 			for(i = 0; i < proc->tam; i++){
 				alteraDado(proc->pid, aux);
 				aux=aux->prox;
@@ -53,27 +50,29 @@ int novo_processo(Processo *proc, Mem *mem) {
 	}
 
 	//int tam, int pid, No no
+	insereLista(proc->pid, &processos, 1);
 	return 0;
 }
 
 int matar_processo(int pid, Mem *mem) {
-	No *aux, *tmp;
+	No *aux;
 	aux = &mem->inicio;
 
-	while(aux->dado != pid){
+	while(aux != NULL ){
+		if(aux->dado == pid){
+			alteraDado(-1, aux);
+		}
 		aux = aux->prox;
 	}
-
-	while(aux->dado == pid){
-		*tmp = buscaLista(pid, aux);
-		alteraDado(-1, tmp);
-		aux = aux->prox;
-	}
-	return 0;
+	removeLista(buscaListaPos(pid, &processos), &processos);
 }
 
 void estado(Mem *mem) {
 	imprimeLista(&mem->inicio);
+}
+
+void lista_processos(){
+	imprimeLista(&processos);
 }
 
 

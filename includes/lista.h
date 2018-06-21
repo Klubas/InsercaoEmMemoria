@@ -11,16 +11,17 @@ struct no{
 
 typedef struct no No;
 
-int insereLista(int valor, No *lista);
+int insereLista(int valor, No *lista, int ordenada);
 
 No buscaLista(int valor, No *lista);
+
+int buscaListaPos(int, No *);
 
 void alteraDado(int novo_valor, No *lista);
 
 void imprimeLista(No *lista);
 
-
-int removeLista(int valor, No *lista);
+int removeLista(int posicao, No *lista);
 
 int recuperaLista(int posicao, No *lista);
 

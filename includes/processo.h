@@ -8,7 +8,6 @@
 struct processo{
     int pid;
     int tam;
-    No *inicio;
 };
 
 typedef struct processo Processo;

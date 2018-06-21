@@ -22,6 +22,11 @@ void init_mem(int tam){
 	mem2.tam = tam;
 	mem3.tam = tam;
 
+	mem0.inicio.prox = NULL;
+	mem1.inicio.prox = NULL;
+	mem2.inicio.prox = NULL;
+	mem3.inicio.prox = NULL;
+
 	mem0.tipo = 'f';
 	mem1.tipo = 'b';
 	mem2.tipo = 'w';
@@ -44,34 +49,28 @@ void mostrar_mem(){
 	estado(&mem2);
 	estado(&mem3);
 }
-/*
-void construir_processo(int tam, int pid){
+
+void construir_processo(int tam){
 	proc.pid = pid;
 	proc.tam = tam;
 }
-*/
-void inserir_processos(int tam_processo){
 
-	/*novo_processo(&proc, &mem0);
-	/*novo_processo(&p, &mem1);
-	novo_processo(&p, &mem2);
-	novo_processo(&p, &mem3);*/
-	//pid = pid + 1;
+void inserir_processos(int tam_processo){
+	construir_processo(tam_processo);
+	novo_processo(&proc, &mem0);
+	pid = pid + 1;
 }
 
 int main(){
-	init_mem(10);
+	init_mem(50);
 
 	mostrar_mem();
-
-//	proc.pid = pid;
-//	proc.tam = 5;
 
 	inserir_processos(3);
 
 	mostrar_mem();
 
-	matar_processo(1, &mem0);
+	matar_processo(0, &mem0);
 
 	mostrar_mem();
 
