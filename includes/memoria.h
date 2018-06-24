@@ -13,6 +13,7 @@
 	char tipo;
 	int qtd_lacunas = 1;
 	int qtd_processos = 0;
+	int ultima_pos = -1;
 	No inicio;
 	No lacunas;
 	No processos;

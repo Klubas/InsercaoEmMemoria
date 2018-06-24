@@ -72,11 +72,17 @@ int removeLista(int posicao, No *lista){
 void limpaLista(No *lista){
 	No *aux = lista;
 	No *anterior = lista;
-	while(aux != NULL){
+	aux->prox = NULL;
+	/*while(aux != NULL){
+		removeLista(1, aux);
+		aux=aux->prox;
+	}*/
+	
+	/*while(aux != NULL){
 		anterior = aux;
 		aux=aux->prox;
 		removeLista(1, anterior);
-	}
+	}*/
 }
 
 void alteraDado(int novo_valor, No *no){
