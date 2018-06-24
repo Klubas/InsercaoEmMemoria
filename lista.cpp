@@ -2,19 +2,19 @@
 #include <stdlib.h>
 #include "includes/lista.h"
 
-int insereLista(int valor, No *lista, int ordenada){
+No insereLista(int valor, No *lista, int ordenada){
 	No *atual;
 	No *anterior = NULL;
 	No *aux;
 	atual = lista;
 
-	if (ordenada && atual->dado < valor){
-		while(atual != NULL){
+	if (ordenada){
+		while(atual != NULL && atual->dado < valor){
 			anterior = atual;
 			atual = atual->prox;
 		}
 		//if (valor == atual->dado) return 0;
-	} else if (!ordenada){
+	} else if (!ordenada){ //sem repetição de valores
 		while(atual != NULL){
 			anterior = atual;
 			atual = atual->prox;
@@ -30,26 +30,21 @@ int insereLista(int valor, No *lista, int ordenada){
 	} else {
 		anterior->prox=aux;
 	}
-	return 0; //sucesso
+	return *aux; //sucesso
 }
 
 void imprimeLista(No *lista){
 	No *aux;
 	aux = lista;
 	printf("[ ");
-	if (aux == NULL) {
-		printf("Lista vazia.\n");
-	} else {
-		while(aux != NULL){
-			printf("%d ", aux->dado);
-			aux = aux->prox;
-		}
-		
+	while(aux != NULL){
+		printf("%d ", aux->dado);
+		aux = aux->prox;
 	}
 	printf("]\n");
 }
 
-int removeLista(int posicao, No *lista){
+int removeLista(int posicao, No *lista){	
 	int i = 0;
 	No *anterior = lista;
 	No *aux = lista;
@@ -72,6 +67,16 @@ int removeLista(int posicao, No *lista){
 	}
 	delete(aux);
 	return 0; //elemento removido
+}
+
+void limpaLista(No *lista){
+	No *aux = lista;
+	No *anterior = lista;
+	while(aux != NULL){
+		anterior = aux;
+		aux=aux->prox;
+		removeLista(1, anterior);
+	}
 }
 
 void alteraDado(int novo_valor, No *no){
@@ -128,8 +133,32 @@ No recuperaLista(int posicao, No *lista){
 		aux=aux->prox;
 		i++;
 	}
-
 	if (aux != NULL) return *aux; 	//achou
 	else printf("NULL\n");
 	return *aux->prox; 					//posicao invalida
+}
+
+int tamLista(No *lista){
+	No *aux = lista;
+	int i = 0;
+	while(aux != NULL){
+		aux = aux->prox; i++;
+	}
+	return i;
+}
+
+int contaElementos(No *lista, int e){
+	No *aux;
+	int i = 0;
+	if(aux == NULL) return 0;
+
+	while(aux != NULL){
+		while(aux->dado == e){
+			i++;
+			aux=aux->prox;
+			if(aux->prox->dado != e) return i;
+		}
+
+	}	
+	return i;
 }
