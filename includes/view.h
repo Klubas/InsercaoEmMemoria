@@ -1,5 +1,5 @@
-#ifndef MAIN_H  
-#define MAIN_H
+#ifndef VIEW_H  
+#define VIEW_H
 
 #include <stdio.h>
 #include <string.h>

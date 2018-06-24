@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "includes/processo.h"
+#include "../includes/processo.h"
 
 Processo proc;
 

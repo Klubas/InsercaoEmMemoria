@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "includes/lista.h"
-#include "includes/memoria.h"
-#include "includes/processo.h"
+#include "../includes/lista.h"
+#include "../includes/memoria.h"
+#include "../includes/processo.h"
 
 #define VAZIO 0
 

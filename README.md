@@ -32,6 +32,6 @@ Observações:
 Aquele com identificação de processo e tamanho e esta com um tamanho;
 	
 
-# Compilar
+# Compilar && executar
 
->g++ -o main.exe main.cpp  memoria.cpp lista.cpp processo.cpp
+> make && make run
