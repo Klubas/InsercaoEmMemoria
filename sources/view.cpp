@@ -6,55 +6,25 @@
 #include "../includes/processo.h"
 #include "../includes/view.h"
 
-int pid = 1;
+int pid = 100;
 
 Mem mem0, mem1, mem2, mem3;
 
-int menu(){
-	int op, aux;
-
-	printf("\n1 - Criar Processo\n");
-	printf("2 - Matar Processo\n");
-	printf("3 - Mostrar Memória\n");
-	printf("4 - Mostrar Processos\n");
-	printf("0 - Sair\n\n > ");
-	scanf("%d", &op);
-
-	switch (op) {
-		case 1: 
-			printf("\nInforme o tamanho:\n > ");
-			scanf("%d", &aux);
-			if(aux>0) inserir_processos(aux);
-			return 1;
-		case 2: 
-			printf("\nInforme o PID:\n > ");
-			scanf("%d", &aux);
-			if(aux>0) matar_processos(aux); 
-			return 2;
-		case 3:
-			printf("\nMemórias:\n");
-			mostrar_mem(); 
-			return 3;
-		case 4:
-			printf("\n");
-			mostrar_processos();
-			return 4;
-		default:
-			if(op==0) 
-				return 0;
-			else {
-				printf("\nTente novamente.\n"); 
-				return -1;
-			}
-	}
-	
-}
-
 //funcao usada para tratar o retorno das funcoes de memoria.cpp
 void retorno(int func, const char* nome, char mem, int pid){
-	if(func == 0) printf("Mem [%cf] { Falha : %s (%d) : Retorno [%d] }\n", mem , nome ,pid, func);
-	else if (func > 0) printf("Mem [%cf] { Sucesso : %s (%d) : Retorno [%d] }\n", mem , nome ,pid,  func);
-	else if (func < 0) printf("Mem [%cf] { Error : %s (%d) : Retorno [%d] }\n", mem, nome,pid, func);
+	if(func == 0){
+		printf("Mem [%cf] { Falha   : %s (%d) : Retorno [%d] } ", mem, nome, pid, func);
+		if(strcmp(nome, "novo_processo") == 0) printf("Memória Insuficiente.\n");
+		else if (strcmp(nome, "matar_processo") == 0) printf("Processo não existe.\n");
+	} else if (func > 0) {
+		printf("Mem [%cf] { Sucesso : %s (%d) : Retorno [%d] } ", mem, nome, pid, func);
+		if(strcmp(nome, "novo_processo") == 0) printf("Processo criado.\n");
+		else if (strcmp(nome, "matar_processo") == 0) printf("Processo morto.\n");
+	} else if (func < 0) {
+		printf("Mem [%cf] { Error   : %s (%d) : Retorno [%d] } ", mem, nome, pid, func);
+		if(strcmp(nome, "novo_processo") == 0) printf("Erro ao criar processo.\n");
+		else if (strcmp(nome, "matar_processo") == 0) printf("Erro ao matar processo\n");
+	}
 }
 
 //define o tamanho das memórias
@@ -70,6 +40,11 @@ void init_mem(int tam){
 	mem2.inicio.prox = NULL;
 	mem3.inicio.prox = NULL;
 
+	mem0.lacunas.prox = NULL;
+	mem1.lacunas.prox = NULL;
+	mem2.lacunas.prox = NULL;
+	mem3.lacunas.prox = NULL;
+
 	mem0.tipo = 'f';
 	mem1.tipo = 'b';
 	mem2.tipo = 'w';
@@ -84,24 +59,24 @@ void init_mem(int tam){
 	mem1.inicio = *mem1.inicio.prox;
 	mem2.inicio = *mem2.inicio.prox;
 	mem3.inicio = *mem3.inicio.prox;
+
+	/*mem0.lacunas = *mem0.lacunas.prox;
+	mem1.lacunas = *mem1.lacunas.prox;
+	mem2.lacunas = *mem2.lacunas.prox;
+	mem3.lacunas = *mem3.lacunas.prox;*/
 }
 
 //mostra qual o estado das memórias
-void mostrar_mem(){
-	printf("\n-\\/-\\/-\\/-\\/-\\/-\\/-\\/-\\/-\\/-\\/-\\/-\\/-\\/-\\/-\\/-\\/-\\/-\\/-\\/-\\/-\n\n");
-	estado(&mem0);
-	lista_lacunas(&mem0); 
-	//lista_processos(&mem0);
-	estado(&mem1);
-	lista_lacunas(&mem1); 
-	//lista_processos(&mem1);
-	estado(&mem2);
-	lista_lacunas(&mem2); 
-	//lista_processos(&mem2);
-	estado(&mem3);
-	lista_lacunas(&mem3); 
-	//lista_processos(&mem3);
-	printf("\n-/\\-/\\-/\\-/\\-/\\-/\\-/\\-/\\-/\\-/\\-/\\-/\\-/\\-/\\-/\\-/\\-/\\-/\\-/\\-/\\-\n\n");
+void mostrar_mem(int mostrar){
+	printf("-----------------------------------------------------------------------------------\n");
+	estado(&mem0, mostrar);
+	printf("-----------------------------------------------------------------------------------\n");
+	estado(&mem1, mostrar);
+	printf("-----------------------------------------------------------------------------------\n");
+	estado(&mem2, mostrar);
+	printf("-----------------------------------------------------------------------------------\n");
+	estado(&mem3, mostrar);
+	printf("-----------------------------------------------------------------------------------\n");
 }
 
 //insere um novo processo em todas as memórias
@@ -126,10 +101,38 @@ void matar_processos(int pid){
 	printf("\n");
 }
 
-void mostrar_processos(){
-	lista_processos(&mem0);
-	lista_processos(&mem1);
-	lista_processos(&mem2);
-	lista_processos(&mem3);
-}
+int menu(){
+	int op, aux;
+	printf("-------------------------\n");
+	printf("| 1 - Criar Processo    |\n");
+	printf("| 2 - Matar Processo    |\n");
+	printf("| 3 - Mostrar Memória  |\n");
+	printf("| 0 - Sair              |\n");
+	printf("-------------------------\n > ");
+	scanf("%d", &op);
 
+	switch (op) {
+		case 1: 
+			printf("\nInforme o tamanho:\n > ");
+			scanf("%d", &aux);
+			if(aux>0) inserir_processos(aux);
+			return 1;
+		case 2: 
+			printf("\nInforme o PID:\n > ");
+			scanf("%d", &aux);
+			if(aux>0) matar_processos(aux); 
+			return 2;
+		case 3:
+			printf("\nMemórias:\n");
+			mostrar_mem(1); 
+			return 3;
+		default:	
+			if(op==0) 
+				return 0;
+			else {
+				printf("\nTente novamente.\n"); 
+				return -1;
+			}
+	}
+	
+}

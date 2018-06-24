@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+
 #include "../includes/lista.h"
 
 No insereLista(int valor, No *lista, int ordenada){
@@ -69,19 +70,16 @@ int removeLista(int posicao, No *lista){
 	return 0; //elemento removido
 }
 
+//ineficiente, gasta memoria, tem que arrumar
 void limpaLista(No *lista){
 	No *aux = lista;
-	No *anterior = lista;
-	aux->prox = NULL;
-	/*while(aux != NULL){
+	No *proximo;
+	lista->prox = NULL;
+
+	/*while(proximo != NULL){
+		proximo = aux->prox;
 		removeLista(1, aux);
-		aux=aux->prox;
-	}*/
-	
-	/*while(aux != NULL){
-		anterior = aux;
-		aux=aux->prox;
-		removeLista(1, anterior);
+		aux = proximo;
 	}*/
 }
 
@@ -154,17 +152,15 @@ int tamLista(No *lista){
 }
 
 int contaElementos(No *lista, int e){
-	No *aux;
+	No *aux = lista;
 	int i = 0;
-	if(aux == NULL) return 0;
 
 	while(aux != NULL){
-		while(aux->dado == e){
-			i++;
-			aux=aux->prox;
-			if(aux->prox->dado != e) return i;
+		if(aux->dado == e){
+			i++; 
+			//if(aux->prox->dado != e) return i;
 		}
-
+		aux=aux->prox;
 	}	
 	return i;
 }

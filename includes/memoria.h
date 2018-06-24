@@ -21,7 +21,6 @@
 
 typedef struct mem Mem ;
 
-
 //cria o espaço na memoria desejada
 void criar(Mem *mem); 
 
@@ -32,7 +31,7 @@ int novo_processo(Processo *proc, Mem *mem);
 int matar_processo(int, Mem *mem); 
 
 //retorna qual é o estado da memória
-void estado(Mem *);	
+void estado(Mem *, int);	
 
 //lista todos os processos criados e não-matados
 void lista_processos(Mem *);

@@ -11,121 +11,159 @@
 void criar(Mem *mem) {
 	int i;
 	for(i = 1; i <= mem->tam; i++){
-		insereLista(0, &mem->inicio, 0)	;
+		insereLista(0, &mem->inicio, 0);
 	}
+	contar_lacunas(mem);
 }
 
 //cria um novo processo na memória informada
 int novo_processo(Processo *proc, Mem *mem) {
-	int i = 0, pos = 0, buraco = 0, tentativa = 0, melhor_pos = 0, diferenca = 0;
 	No *aux = &mem->inicio;
+	int i = 0, pos = 0, buraco = 0, tentativa = 0;
+	int melhor_lacuna = maior_lacuna(mem), diferenca = melhor_lacuna;
 	
-	if(proc->tam > mem->tam /*|| proc->tam > maior_lacuna(mem)*/ || proc->tam <= 0){
+	if(proc->tam > mem->tam || proc->tam > melhor_lacuna || proc->tam <= 0){
 		return 0; //impossivel inserir
 	}
+	
 	switch (mem->tipo){
-		case 'f': //first fit | i = tamanho livre
-			while(aux != NULL){
-				if(aux->dado == VAZIO){
-					buraco = buraco + 1;
-					if(buraco == proc->tam){
-						//*aux = recuperaLista(pos - buraco, aux);
-						aux = &mem->inicio;
-						for(i = 0; i <= pos - buraco; i++){
-							aux=aux->prox;
+		case 'f': //first fit
+				while(aux != NULL){
+					if(aux->dado == VAZIO){
+						buraco = buraco + 1;
+						if(buraco == proc->tam){
+							//*aux = recuperaLista(pos - buraco, aux);
+							aux = &mem->inicio;
+							for(i = 0; i <= pos - buraco; i++){
+								aux=aux->prox;
+							}
+							for(i = 0; i <proc->tam; i++){
+								alteraDado(proc->pid, aux);
+								aux=aux->prox;
+							}
+							mem->tam_ocupado = mem->tam_ocupado + proc->tam;
+							mem->qtd_processos = mem->qtd_processos + 1;
+							insereLista(proc->pid, &mem->processos, 1);
+							return 1; //sucesso
 						}
-						for(i = 0; i <proc->tam; i++){
-							alteraDado(proc->pid, aux);
-							aux=aux->prox;
-						}
-						mem->tam_ocupado = mem->tam_ocupado + proc->tam;
-						insereLista(proc->pid, &mem->processos, 1);
-						return 1; //sucesso
+						
+					} else {
+						buraco = 0;
 					}
-					
-				} else {
-					buraco = 0;
+					aux = aux->prox;
+					pos = pos + 1;
 				}
-				aux = aux->prox;
-				pos = pos + 1;
-			}
 			return -1; //falha ao inserir
 		case 'b': //best fit
-			while(aux != NULL){
-				if(aux->dado == VAZIO){
-					buraco = buraco + 1;
-				} else {
-					if(buraco - proc->tam > 0){
-						melhor_pos = pos;
+				aux = mem->lacunas.prox;
+				while(aux != NULL){
+					diferenca = aux->dado - proc->tam ;
+					if(diferenca <= melhor_lacuna){
+						melhor_lacuna = aux->dado;
 					}
-					if(buraco - proc->tam < diferenca){
-						diferenca = buraco - proc->tam;
-					}
-					buraco = 0;
+					aux=aux->prox;
 				}
-				aux=aux->prox;
-				pos = pos + 1;
-			}
-			return -1; //falha ao inserir
-	
-		case 'w': //worst fit
-			for(i = 0; i < proc->tam; i++){
-				alteraDado(proc->pid, aux);
-				aux=aux->prox;
-			}
-			mem->tam_ocupado = mem->tam_ocupado + proc->tam;
-			insereLista(proc->pid, &mem->processos, 1);
-			break; //sucesso, implementar e trocar por return 1
-			return -1; //falha ao inserir
-
-		case 'n': //next fit
-			printf("ultima pos=%d\n", mem->ultima_pos);
-			for(pos = 0; pos <= mem->ultima_pos; pos++){
-				aux=aux->prox;
-			}
-
-			insere:
-			while(aux != NULL) {
-				if(aux->dado == VAZIO){
-					buraco = buraco + 1;
-					if(buraco == proc->tam){
-						aux = &mem->inicio;
-						for(i = 0; i <= pos - buraco; i++){
-							aux=aux->prox;
+				printf("Melhor lacuna=%d\n", melhor_lacuna);
+				aux=&mem->inicio;
+				while (aux != NULL){
+					if(aux->dado == VAZIO){
+						buraco = buraco + 1;
+						if(buraco ==  melhor_lacuna){
+							if(aux->prox != NULL){
+								if(aux->prox->dado != VAZIO){
+									pos = pos - proc->tam - 1;
+									break;
+								}
+							} 
 						}
-						for(i = 0; i <proc->tam; i++){
+					} else {
+						buraco = 0;
+					}
+					aux=aux->prox; 
+					pos = pos + 1;
+				}
+
+				aux=&mem->inicio;
+				//printf("e=%d\n", contaElementos(aux, VAZIO));
+				//if(contaElementos(aux, VAZIO) == mem->tam) pos = 0;
+				if(mem->tam == pos) pos = 0;
+				else for(i=0; i < pos; i++) aux=aux->prox;
+
+				while(aux != NULL){
+					if(aux->dado == VAZIO){
+						for(i = 0; i < proc->tam; i++){
 							alteraDado(proc->pid, aux);
 							aux=aux->prox;
 						}
 						mem->tam_ocupado = mem->tam_ocupado + proc->tam;
-						mem->ultima_pos = pos;
+						mem->qtd_processos = mem->qtd_processos + 1;
 						insereLista(proc->pid, &mem->processos, 1);
 						return 1; //sucesso
 					}
-					
-				} else {
-					buraco = 0;
+					aux=aux->prox;
+				}	
+				return -1; //falha ao inserir
+			case 'w': //worst fit
+				/*for(i = 0; i < proc->tam; i++){
+					alteraDado(proc->pid, aux);
+					aux=aux->prox;
 				}
-				aux = aux->prox;
-				pos = pos + 1;
-			}
-			if(tentativa == 0) {
-				tentativa = 1;
-				aux = &mem->inicio;
-				mem->ultima_pos = 0;
-				pos = 0;
-				goto insere;
-			}
+				mem->tam_ocupado = mem->tam_ocupado + proc->tam;
+				insereLista(proc->pid, &mem->processos, 1);
+				break; //sucesso, implementar e trocar por return 1*/
+
 			return -1; //falha ao inserir
-		default: printf("Erro\n");
+		case 'n': //next fit
+				for(pos = 0; pos <= mem->ultima_pos; pos++){
+					aux=aux->prox;
+				}
+
+				insere:
+				while(aux != NULL) {
+					if(aux->dado == VAZIO){
+						buraco = buraco + 1;
+						if(buraco == proc->tam){
+							aux = &mem->inicio;
+							for(i = 0; i <= pos - buraco; i++){
+								aux=aux->prox;
+							}
+							for(i = 0; i <proc->tam; i++){
+								alteraDado(proc->pid, aux);
+								aux=aux->prox;
+							}
+							mem->tam_ocupado = mem->tam_ocupado + proc->tam;
+							mem->qtd_processos = mem->qtd_processos + 1;
+							mem->ultima_pos = pos;
+							insereLista(proc->pid, &mem->processos, 1);
+							return 1; //sucesso
+						}
+						
+					} else {
+						buraco = 0;
+					}
+					aux = aux->prox;
+					pos = pos + 1;
+				}
+				if(tentativa == 0) {
+					tentativa = 1;
+					aux = &mem->inicio;
+					mem->ultima_pos = 0;
+					pos = 0;
+					goto insere;
+				}
+			return -1; //falha ao inserir
+		default:
+			printf("Erro\n");
+			break;
+		return -1;
 	}
-	return 2; //sucesso ao inserir
+
 }
 
 //mata o processo desejado na memória informada
 int matar_processo(int pid, Mem *mem) {
 	No *aux;
-	int alt = 0;
+	int alt = 0, tam = 0;
 	aux = &mem->inicio;
 
 	if(pid <= VAZIO){
@@ -135,12 +173,15 @@ int matar_processo(int pid, Mem *mem) {
 	while(aux != NULL ){
 		if(aux->dado == pid){
 			alteraDado(VAZIO, aux);
-			alt = 1;
+			alt++;
 		}
 		aux = aux->prox;
 	}
-	if(alt == 1){
+	if(alt > 0){
 		removeLista(buscaListaPos(pid, &mem->processos), &mem->processos);
+		mem->qtd_processos=mem->qtd_processos - 1;
+		mem->tam_ocupado=mem->tam_ocupado-alt;
+		contar_lacunas(mem);
 		return 1; //processo removido
 	}
 	else 
@@ -148,24 +189,32 @@ int matar_processo(int pid, Mem *mem) {
 }
 
 //exibe estado da memoria
-void estado(Mem *mem) {
+void estado(Mem *mem, int mostrar) {
 	contar_lacunas(mem);
-	printf("Mem [%cf] : ", mem->tipo); imprimeLista(&mem->inicio);
-	printf("Menor lacuna: %d \nMaior Lacuna: %d\n", menor_lacuna(mem), maior_lacuna(mem));
+	printf("Mem [%cf] : ", mem->tipo); 
+	if(mostrar) imprimeLista(&mem->inicio);
+	printf("\nTamanho      :	%d\nOcupado      :	%d\n\nProcessos    :	%d\nLacunas      :	%d\n", mem->tam, mem->tam_ocupado, mem->qtd_processos, mem->qtd_lacunas);
+	printf("\n"); lista_processos(mem);
+	lista_lacunas(mem);
+	//	printf("Menor lacuna: %d Maior Lacuna: %d\n", menor_lacuna(mem), maior_lacuna(mem));
 }
 
-//lista todos os processos criados e não-matados
+int vazio(Mem *mem){
+	if(contaElementos(&mem->inicio, VAZIO) == mem->tam) return 1;
+	else return 0;
+}
+
+//lista todos os ativos
 void lista_processos(Mem *mem){	
-	printf("Processos Mem %cf : ", mem->tipo );
-	imprimeLista(&mem->processos);
+	printf("Processos    : ");
+	imprimeLista(mem->processos.prox);
 	//imprime_sem_repetir(&mem->processos);
 }
 
 void lista_lacunas(Mem *mem){
 	contar_lacunas(mem);
-	mem->lacunas=*mem->lacunas.prox;
-	printf("Lacunas   Mem %cf : ", mem->tipo );
-	imprimeLista(&mem->lacunas);
+	printf("Lacunas      : ");
+	imprimeLista(mem->lacunas.prox);
 }
 
 int maior_lacuna(Mem *mem){
@@ -180,7 +229,7 @@ int maior_lacuna(Mem *mem){
 		aux=aux->prox;
 	}
 	return maior;
-}	
+}
 
 int menor_lacuna(Mem *mem) {
 	No *aux;
@@ -206,20 +255,12 @@ int menor_lacuna(Mem *mem) {
 	return menor ;
 }
 
-No lacuna(int tam, Mem *mem){
-	No *aux = &mem->lacunas;
-	int diferenca = 0, pos;
-	while (aux != NULL){
-		if(aux->dado == tam) break;
-		aux=aux->prox;
-	}
-}
-
 void contar_lacunas(Mem *mem){
 	int tam = 0, pos = 0;
-	No *aux = mem->inicio.prox;
+	No *aux = &mem->inicio;
 
 	limpaLista(&mem->lacunas);
+	mem->qtd_lacunas = 0;
 
 	while(aux != NULL){
 		if(aux->dado == VAZIO && aux->prox != NULL){
@@ -227,13 +268,14 @@ void contar_lacunas(Mem *mem){
 		} else if(tam > 0 || aux->prox == NULL){
 			if(aux->prox == NULL) tam = tam + 1;
 			insereLista(tam, &mem->lacunas, 0);
+			mem->qtd_lacunas = mem->qtd_lacunas + 1;
 			tam = 0;
 		}
 		aux=aux->prox; 
 	}
 	return;
 }
-	
+
 void imprime_sem_repetir(No *no){
 	int dado;
 	No *aux;
@@ -248,5 +290,3 @@ void imprime_sem_repetir(No *no){
 	}
 	printf("]\n");
 }
-
-

@@ -1,11 +1,12 @@
 #include <stdio.h>
 #include <locale.h>
+
 #include "../includes/view.h"
 
 int main(){
 	setlocale(LC_ALL, "Portuguese");
 
-	int tam=20;
+	int tam=10;
 
 	/*printf("Definir o tamanho das memórias:\n > ");
 	scanf("%d", &tam);
@@ -17,5 +18,6 @@ int main(){
 	init_mem(tam);
 
 	while(menu() != 0);
+	
 	return 0;	
 }

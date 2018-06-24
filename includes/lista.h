@@ -37,10 +37,13 @@ void imprimeLista(No *lista);
 //remove o valor na posicao informada
 int removeLista(int posicao, No *lista); 
 
+//
 void limpaLista(No *lista);
 
+//
 int contaElementos(No *lista, int e);
 
+//
 int tamLista(No *lista);
 
 

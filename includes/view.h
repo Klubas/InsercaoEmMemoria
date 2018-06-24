@@ -16,6 +16,8 @@ void matar_processos(int pid);
 
 void mostrar_processos();
 
+void mostrar_lacunas();
+
 void retorno(int func, const char* nome, char mem, int pid);
 
 #endif
