@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <string.h>
 
@@ -106,7 +105,7 @@ int menu(){
 	printf("-------------------------\n");
 	printf("| 1 - Criar Processo    |\n");
 	printf("| 2 - Matar Processo    |\n");
-	printf("| 3 - Mostrar Memória  |\n");
+	printf("| 3 - Mostrar Memória   |\n");
 	printf("| 0 - Sair              |\n");
 	printf("-------------------------\n > ");
 	scanf("%d", &op);

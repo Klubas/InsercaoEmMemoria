@@ -2,8 +2,6 @@
 #define PROCESSO_H
 
 #include <stdio.h>
-#include <stdlib.h>
-#include "lista.h"
 
 //define a estrutura de um processo
 struct processo{

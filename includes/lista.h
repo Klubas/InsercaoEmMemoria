@@ -2,7 +2,6 @@
 #define LISTA_H
 
 #include <stdio.h>
-#include <stdlib.h>
 
 //estrutura da lista, formada por nós
 struct no{
