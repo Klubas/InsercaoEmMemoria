@@ -5,7 +5,7 @@
 #include "../includes/processo.h"
 #include "../includes/view.h"
 
-int pid = 100;
+int pid = 10;
 
 Mem mem0, mem1, mem2, mem3;
 
@@ -102,6 +102,7 @@ void matar_processos(int pid){
 
 int menu(){
 	int op, aux;
+	char c;
 	printf("-------------------------\n");
 	printf("| 1 - Criar Processo    |\n");
 	printf("| 2 - Matar Processo    |\n");
@@ -122,8 +123,18 @@ int menu(){
 			if(aux>0) matar_processos(aux); 
 			return 2;
 		case 3:
+			/*if(mem0.tam > 200){
+				printf("Memória muito grande, tem certeza que deseja exibir a representação? (s/n) ");
+				c = getc(stdin);
+				//scanf("%c", &c);
+				switch(c){
+					case 's' : aux = 1; break;
+					case 'S' : aux = 1; break;
+					default : aux = 0; break;
+				}
+			}*/
 			printf("\nMemórias:\n");
-			mostrar_mem(1); 
+			mostrar_mem(aux); 
 			return 3;
 		default:	
 			if(op==0) 

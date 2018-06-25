@@ -21,7 +21,8 @@ int novo_processo(Processo *proc, Mem *mem) {
 	int i = 0, pos = 0, buraco = 0, tentativa = 0;
 	int melhor_lacuna = maior_lacuna(mem), diferenca = melhor_lacuna;
 	
-	if(proc->tam > mem->tam || proc->tam > melhor_lacuna || proc->tam <= 0){
+	//overkill
+	if(proc->tam > mem->tam || proc->tam > melhor_lacuna || proc->tam <= 0 || proc->tam + mem->tam_ocupado > mem->tam){
 		return 0; //impossivel inserir
 	}
 	
@@ -69,7 +70,7 @@ int novo_processo(Processo *proc, Mem *mem) {
 							if(buraco ==  melhor_lacuna){
 								if(aux->prox != NULL){
 									if(aux->prox->dado != VAZIO){
-										pos = pos - proc->tam - 1;
+										pos = pos - melhor_lacuna - 1;
 										break;
 									}
 								} else {
@@ -121,7 +122,7 @@ int novo_processo(Processo *proc, Mem *mem) {
 							if(buraco ==  melhor_lacuna){
 								if(aux->prox != NULL){
 									if(aux->prox->dado != VAZIO){
-										pos = pos - proc->tam - 1;
+										pos = pos - melhor_lacuna - 1;
 										break;
 									}
 								} else {
@@ -140,7 +141,7 @@ int novo_processo(Processo *proc, Mem *mem) {
 					}
 					aux=&mem->inicio;
 				}
-				for(i=0; i < pos; i++) aux=aux->prox;
+				if (pos != mem->tam) for(i=0; i < pos; i++) aux=aux->prox;
 
 				while(aux != NULL){
 					if(aux->dado == VAZIO){
@@ -174,9 +175,9 @@ int novo_processo(Processo *proc, Mem *mem) {
 								alteraDado(proc->pid, aux);
 								aux=aux->prox;
 							}
+							mem->ultima_pos = pos;
 							mem->tam_ocupado = mem->tam_ocupado + proc->tam;
 							mem->qtd_processos = mem->qtd_processos + 1;
-							mem->ultima_pos = pos;
 							insereLista(proc->pid, &mem->processos, 1);
 							return 1; //sucesso
 						}
@@ -222,8 +223,8 @@ int matar_processo(int pid, Mem *mem) {
 	}
 	if(alt > 0){
 		removeLista(buscaListaPos(pid, &mem->processos), &mem->processos);
-		mem->qtd_processos=mem->qtd_processos - 1;
-		mem->tam_ocupado=mem->tam_ocupado-alt;
+		mem->qtd_processos = mem->qtd_processos - 1;
+		mem->tam_ocupado = mem->tam_ocupado - alt;
 		contar_lacunas(mem);
 		return 1; //processo removido
 	}
@@ -239,7 +240,6 @@ void estado(Mem *mem, int mostrar) {
 	printf("\nTamanho      :	%d\nOcupado      :	%d\n\nProcessos    :	%d\nLacunas      :	%d\n", mem->tam, mem->tam_ocupado, mem->qtd_processos, mem->qtd_lacunas);
 	printf("\n"); lista_processos(mem);
 	lista_lacunas(mem);
-	//	printf("Menor lacuna: %d Maior Lacuna: %d\n", menor_lacuna(mem), maior_lacuna(mem));
 }
 
 int vazio(Mem *mem){
@@ -247,11 +247,15 @@ int vazio(Mem *mem){
 	else return 0;
 }
 
+int cheio(Mem *mem){
+	if(contaElementos(&mem->inicio, VAZIO) == 0) return 1;
+	else return 0;
+}
+
 //lista todos os ativos
 void lista_processos(Mem *mem){	
 	printf("Processos    : ");
 	imprimeLista(mem->processos.prox);
-	//imprime_sem_repetir(&mem->processos);
 }
 
 void lista_lacunas(Mem *mem){
@@ -305,16 +309,20 @@ void contar_lacunas(Mem *mem){
 	limpaLista(&mem->lacunas);
 	mem->qtd_lacunas = 0;
 
+	if(cheio(mem)) return;
+
 	while(aux != NULL){
 		if(aux->dado == VAZIO && aux->prox != NULL){
 			tam++; 
-		} else if(tam > 0){
-			if(aux->prox == NULL) tam = tam + 1;
-			insereLista(tam, &mem->lacunas, 0);
-			mem->qtd_lacunas = mem->qtd_lacunas + 1;
-			tam = 0;
+		} else { 
+			if(aux->prox == NULL) tam = tam + 1; 
+			if(tam > 0){
+				insereLista(tam, &mem->lacunas, 0);
+				mem->qtd_lacunas = mem->qtd_lacunas + 1;
+				tam = 0;	
+			}
 		}
-		aux=aux->prox; 
+		aux=aux->prox;
 	}
 	return;
 }
