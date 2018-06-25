@@ -46,4 +46,6 @@ int menor_lacuna(Mem *mem);
 
 void contar_lacunas(Mem *mem);
 
+int vazio(Mem *);
+
 #endif

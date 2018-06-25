@@ -55,39 +55,46 @@ int novo_processo(Processo *proc, Mem *mem) {
 				}
 			return -1; //falha ao inserir
 		case 'b': //best fit
-				aux = mem->lacunas.prox;
-				while(aux != NULL){
-					diferenca = aux->dado - proc->tam ;
-					if(diferenca <= melhor_lacuna){
-						melhor_lacuna = aux->dado;
-					}
-					aux=aux->prox;
-				}
-				printf("Melhor lacuna=%d\n", melhor_lacuna);
-				aux=&mem->inicio;
-				while (aux != NULL){
-					if(aux->dado == VAZIO){
-						buraco = buraco + 1;
-						if(buraco ==  melhor_lacuna){
-							if(aux->prox != NULL){
-								if(aux->prox->dado != VAZIO){
-									pos = pos - proc->tam - 1;
-									break;
-								}
-							} 
+				if(!vazio(mem)){
+					aux = mem->lacunas.prox;
+					while(aux != NULL){
+						diferenca = aux->dado - proc->tam ;
+						if(diferenca <= melhor_lacuna){
+							melhor_lacuna = aux->dado;
 						}
-					} else {
-						buraco = 0;
+						aux=aux->prox;
 					}
-					aux=aux->prox; 
-					pos = pos + 1;
-				}
+					aux=&mem->inicio;
+					while (aux != NULL){
+						if(aux->dado == VAZIO){
+							buraco = buraco + 1;
+							if(buraco ==  melhor_lacuna){
+								if(aux->prox != NULL){
+									if(aux->prox->dado != VAZIO){
+										pos = pos - proc->tam - 1;
+										break;
+									}
+								} else {
+									if(melhor_lacuna >= proc->tam){
+										pos = pos - buraco;
+									} else {
+										pos = 0;
+									}
+								}
+							}
+						} else {
+							buraco = 0;
+						}
+						aux=aux->prox; 
+						pos = pos + 1;
+					}
 
-				aux=&mem->inicio;
-				//printf("e=%d\n", contaElementos(aux, VAZIO));
-				//if(contaElementos(aux, VAZIO) == mem->tam) pos = 0;
-				if(mem->tam == pos) pos = 0;
-				else for(i=0; i < pos; i++) aux=aux->prox;
+					aux=&mem->inicio;
+				}
+				//if(mem->tam == pos) pos = 0;
+				//else 
+				//if(mem->tam != pos) 
+				for(i=0; i < pos; i++) aux=aux->prox;
 
 				while(aux != NULL){
 					if(aux->dado == VAZIO){
@@ -265,7 +272,7 @@ void contar_lacunas(Mem *mem){
 	while(aux != NULL){
 		if(aux->dado == VAZIO && aux->prox != NULL){
 			tam++; 
-		} else if(tam > 0 || aux->prox == NULL){
+		} else if(tam > 0){
 			if(aux->prox == NULL) tam = tam + 1;
 			insereLista(tam, &mem->lacunas, 0);
 			mem->qtd_lacunas = mem->qtd_lacunas + 1;
