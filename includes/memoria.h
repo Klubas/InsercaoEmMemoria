@@ -33,19 +33,22 @@ int matar_processo(int, Mem *mem);
 //retorna qual é o estado da memória
 void estado(Mem *, int);	
 
-//lista todos os processos criados e não-matados
+//lista todos os processos criados e ativos(pids)
 void lista_processos(Mem *);
 
+//lista a lacunas (tamanhos)
 void lista_lacunas(Mem *);
 
-void imprime_sem_repetir(No *no);
-
+//retorna a maior lacuna
 int maior_lacuna(Mem *mem);
 
+//retorna a menor lacuna
 int menor_lacuna(Mem *mem);
 
+//conta a quantidade de lacunas e insere na lista de lacunas da struct mem
 void contar_lacunas(Mem *mem);
 
+//retorna 1 ou 0 se a Mem estiver vazia
 int vazio(Mem *);
 
 #endif

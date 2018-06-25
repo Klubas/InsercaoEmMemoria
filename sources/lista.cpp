@@ -13,8 +13,7 @@ No insereLista(int valor, No *lista, int ordenada){
 			anterior = atual;
 			atual = atual->prox;
 		}
-		//if (valor == atual->dado) return 0;
-	} else if (!ordenada){ //sem repetição de valores
+	} else if (!ordenada){
 		while(atual != NULL){
 			anterior = atual;
 			atual = atual->prox;
@@ -157,7 +156,6 @@ int contaElementos(No *lista, int e){
 	while(aux != NULL){
 		if(aux->dado == e){
 			i++; 
-			//if(aux->prox->dado != e) return i;
 		}
 		aux=aux->prox;
 	}	

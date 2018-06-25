@@ -31,7 +31,6 @@ int novo_processo(Processo *proc, Mem *mem) {
 					if(aux->dado == VAZIO){
 						buraco = buraco + 1;
 						if(buraco == proc->tam){
-							//*aux = recuperaLista(pos - buraco, aux);
 							aux = &mem->inicio;
 							for(i = 0; i <= pos - buraco; i++){
 								aux=aux->prox;
@@ -318,19 +317,4 @@ void contar_lacunas(Mem *mem){
 		aux=aux->prox; 
 	}
 	return;
-}
-
-void imprime_sem_repetir(No *no){
-	int dado;
-	No *aux;
-	aux = no;
-	printf("[ ");
-	dado = aux->dado;
-	while(aux != NULL){
-		if(dado != aux->dado)
-			printf("%d ", aux->dado);
-		dado = aux->dado;
-		aux = aux->prox;
-	}
-	printf("]\n");
 }

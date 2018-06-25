@@ -36,14 +36,13 @@ void imprimeLista(No *lista);
 //remove o valor na posicao informada
 int removeLista(int posicao, No *lista); 
 
-//
+//apaga todos os valores da lista
 void limpaLista(No *lista);
 
-//
+//conta quantos elemento int e existem na lista
 int contaElementos(No *lista, int e);
 
-//
+//retorna a quantidade de elementos na lista
 int tamLista(No *lista);
-
 
 #endif
