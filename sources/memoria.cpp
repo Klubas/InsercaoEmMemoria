@@ -88,13 +88,9 @@ int novo_processo(Processo *proc, Mem *mem) {
 						aux=aux->prox; 
 						pos = pos + 1;
 					}
-
 					aux=&mem->inicio;
 				}
-				//if(mem->tam == pos) pos = 0;
-				//else 
-				//if(mem->tam != pos) 
-				for(i=0; i < pos; i++) aux=aux->prox;
+				if (pos != mem->tam) for(i=0; i < pos; i++) aux=aux->prox;
 
 				while(aux != NULL){
 					if(aux->dado == VAZIO){
@@ -111,15 +107,57 @@ int novo_processo(Processo *proc, Mem *mem) {
 				}	
 				return -1; //falha ao inserir
 			case 'w': //worst fit
-				/*for(i = 0; i < proc->tam; i++){
-					alteraDado(proc->pid, aux);
-					aux=aux->prox;
+				if(!vazio(mem)){
+					aux = mem->lacunas.prox;
+					while(aux != NULL){
+						diferenca = aux->dado - proc->tam ;
+						if(diferenca > melhor_lacuna){
+							melhor_lacuna = aux->dado;
+						}
+						aux=aux->prox;
+					}
+					aux=&mem->inicio;
+					while (aux != NULL){
+						if(aux->dado == VAZIO){
+							buraco = buraco + 1;
+							if(buraco ==  melhor_lacuna){
+								if(aux->prox != NULL){
+									if(aux->prox->dado != VAZIO){
+										pos = pos - proc->tam - 1;
+										break;
+									}
+								} else {
+									if(melhor_lacuna >= proc->tam){
+										pos = pos - buraco;
+									} else {
+										pos = 0;
+									}
+								}
+							}
+						} else {
+							buraco = 0;
+						}
+						aux=aux->prox; 
+						pos = pos + 1;
+					}
+					aux=&mem->inicio;
 				}
-				mem->tam_ocupado = mem->tam_ocupado + proc->tam;
-				insereLista(proc->pid, &mem->processos, 1);
-				break; //sucesso, implementar e trocar por return 1*/
+				for(i=0; i < pos; i++) aux=aux->prox;
 
-			return -1; //falha ao inserir
+				while(aux != NULL){
+					if(aux->dado == VAZIO){
+						for(i = 0; i < proc->tam; i++){
+							alteraDado(proc->pid, aux);
+							aux=aux->prox;
+						}
+						mem->tam_ocupado = mem->tam_ocupado + proc->tam;
+						mem->qtd_processos = mem->qtd_processos + 1;
+						insereLista(proc->pid, &mem->processos, 1);
+						return 1; //sucesso
+					}
+					aux=aux->prox;
+				}	
+				return -1; //falha ao inserir
 		case 'n': //next fit
 				for(pos = 0; pos <= mem->ultima_pos; pos++){
 					aux=aux->prox;
