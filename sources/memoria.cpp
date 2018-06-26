@@ -27,8 +27,8 @@ int novo_processo(Processo *proc, Mem *mem) {
 		case 'b':
 		case 'w': return quality_fit(mem, proc, mem->tipo); break;
 		default : break;
-	return -1;
 	}
+	return -1;
 }
 
 //encontra a posicao para gravar pelos metodos best e worst fit
