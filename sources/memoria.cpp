@@ -31,6 +31,7 @@ int novo_processo(Processo *proc, Mem *mem) {
 	}
 }
 
+//encontra a posicao para gravar pelos metodos best e worst fit
 int quality_fit(Mem *mem, Processo *proc, const char tipo_fit){
 	int buraco = 0, pos = 0, i;
 	int melhor_lacuna = maior_lacuna(mem), diferenca = melhor_lacuna;
@@ -64,6 +65,7 @@ int quality_fit(Mem *mem, Processo *proc, const char tipo_fit){
 	return -1; // falha ao inserir
 }
 
+//encontra a posicao a gravar pelos metodos first e next fit
 int position_fit(Mem *mem, Processo *proc, const char tipo_fit){
 	int pos = 0, buraco = 0, tentativa = 0, i;
 	No *aux = &mem->inicio;
@@ -97,6 +99,7 @@ int position_fit(Mem *mem, Processo *proc, const char tipo_fit){
 	}
 }
 
+//grava o processo na posicao informada
 void grava_memoria(Mem *mem, Processo *proc, int pos){
 	int i;
 	No *aux = &mem->inicio;
@@ -138,25 +141,30 @@ int matar_processo(int pid, Mem *mem) {
 		return 0; // processo não existe
 }
 
+//testa se a memória esta vazia (1) ou não (0)
 int vazio(Mem *mem){
 	if(contaElementos(&mem->inicio, VAZIO) == mem->tam) return 1;
 	else return 0;
 }
 
+//testa se a memória esta cheia (1) ou não (0)
 int cheio(Mem *mem){
 	if(contaElementos(&mem->inicio, VAZIO) == 0) return 1;
 	else return 0;
 }
 
+//lista todos os pids de processos (inicia em prox para omitir o pid '0')
 void lista_processos(Mem *mem){	
 	imprimeLista(mem->processos.prox);
 }
 
+//lista todas as lacunas (inicia em .prox pra omitir o tamanho '0')
 void lista_lacunas(Mem *mem){
 	contar_lacunas(mem);
 	imprimeLista(mem->lacunas.prox);
 }
 
+//retorna o tamanho da maior lacuna
 int maior_lacuna(Mem *mem){
 	int i, tam;
 	No *aux;
@@ -173,6 +181,7 @@ int maior_lacuna(Mem *mem){
 	}
 }
 
+//retorna o tamanho da menor lacuna
 int menor_lacuna(Mem *mem) {
 	No *aux;
 	contar_lacunas(mem);
@@ -181,6 +190,7 @@ int menor_lacuna(Mem *mem) {
 	else return aux->prox->dado;
 }
 
+//conta a quantidad de lacunas na memoria
 void contar_lacunas(Mem *mem){
 	int tam = 0, i;
 	No *aux = &mem->inicio;
@@ -197,9 +207,8 @@ void contar_lacunas(Mem *mem){
 		}
 		aux=aux->prox;
 	}
-	if(tam > 0) {
-		insereLista(tam, &mem->lacunas, 1); tam = 0;
-	}
+	if(tam > 0) insereLista(tam, &mem->lacunas, 1); 
+	
 	mem->qtd_lacunas = tamLista(&mem->lacunas) - 1;
 }
 
@@ -211,10 +220,10 @@ void estado(Mem *mem, int mostrar) {
 		printf("\n|\n|");
 		imprimeLista(&mem->inicio); printf("\n|");
 	}
-	printf("\n|  Capacidade      :\t%d", mem->tam);
-	printf("\n|  Ocupado         :\t%d", mem->tam_ocupado);
+	printf("\n|  Capacidade      :\t%d KB", mem->tam);
+	printf("\n|  Ocupado         :\t%d KB", mem->tam_ocupado);
 	printf("\n|  Processos       :\t%d\t", mem->qtd_processos); lista_processos(mem);
 	printf("\n|  Lacunas         :\t%d\t", mem->qtd_lacunas); lista_lacunas(mem);
-	printf("\n|  Maior lacuna    :\t%d", maior_lacuna(mem));
-	printf("\n|  Menor Lacuna    :\t%d\n", menor_lacuna(mem));
+	printf("\n|  Maior lacuna    :\t%d KB", maior_lacuna(mem));
+	printf("\n|  Menor Lacuna    :\t%d KB\n", menor_lacuna(mem));
 }

@@ -5,7 +5,7 @@
 #include "../includes/processo.h"
 #include "../includes/view.h"
 
-//declaração das memórias
+//declaração das memórias, tem que ser global for reasons
 Mem mem0, mem1, mem2, mem3;
 
 int pid = 10, mostrar = 1;
@@ -124,7 +124,10 @@ int menu(){
 			else mostrar = 1;
 			return 4;
 		default:	
-			if(op == 0) return 0;
+			if(op == 0) {
+				printf("|-----------------------------------------------------------------------------------\n");
+				return 0;
+			}
 			else {
 				printf("|\n");
 				printf("|  Tente novamente.\n"); 

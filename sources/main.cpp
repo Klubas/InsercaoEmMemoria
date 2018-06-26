@@ -7,7 +7,7 @@ int main(){
 	setlocale(LC_ALL, "Portuguese");
 
 	int tam;
-
+	printf("|-----------------------------------------------------------------------------------\n");
 	printf("|\n");
 	printf("|  Definir o tamanho das memórias:\n");
 	printf("|\n > ");
@@ -17,6 +17,7 @@ int main(){
 		printf("|\n");
 		printf("|  Tamanho invalido, saindo...\n");
 		printf("|\n");
+		printf("|-----------------------------------------------------------------------------------\n");
 		return 0;
 	}
 
