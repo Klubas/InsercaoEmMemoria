@@ -27,6 +27,15 @@ void criar(Mem *mem);
 //cria um novo processo na memoria desejada
 int novo_processo(Processo *proc, Mem *mem); 
 
+//next e first fit
+int position_fit(Mem *, Processo *, const char); 
+
+//best e worst fit
+int quality_fit(Mem *, Processo *, const char);
+
+//move até a posição desejada e grava o processo
+void grava_memoria(Mem *mem, Processo *proc, int pos);
+
 //elimina um processo na memoria desejada
 int matar_processo(int, Mem *mem); 
 
@@ -50,5 +59,7 @@ void contar_lacunas(Mem *mem);
 
 //retorna 1 ou 0 se a Mem estiver vazia
 int vazio(Mem *);
+
+int cheio(Mem *);
 
 #endif

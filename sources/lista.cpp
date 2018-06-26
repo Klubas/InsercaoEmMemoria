@@ -34,13 +34,15 @@ No insereLista(int valor, No *lista, int ordenada){
 
 void imprimeLista(No *lista){
 	No *aux;
+	int i = 0;
 	aux = lista;
-	printf("[ ");
+	printf(" [ ");
 	while(aux != NULL){
-		printf("%d ", aux->dado);
+		if(i == 25) { printf("\n|   "); i = 0; }
+		printf("%3d ", aux->dado); i++;
 		aux = aux->prox;
 	}
-	printf("]\n");
+	printf("  ]");
 }
 
 int removeLista(int posicao, No *lista){	
@@ -70,15 +72,9 @@ int removeLista(int posicao, No *lista){
 
 //ineficiente, gasta memoria, tem que arrumar
 void limpaLista(No *lista){
-	No *aux = lista;
-	No *proximo;
-	lista->prox = NULL;
-
-	/*while(proximo != NULL){
-		proximo = aux->prox;
-		removeLista(1, aux);
-		aux = proximo;
-	}*/
+	int i = 0, tam = tamLista(lista);
+	for(i = tam; i > 0; i--) 
+		removeLista(i, lista);
 }
 
 void alteraDado(int novo_valor, No *no){

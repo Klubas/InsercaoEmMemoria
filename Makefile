@@ -3,4 +3,4 @@ default: ./sources/main.cpp ./sources/lista.cpp ./sources/memoria.cpp ./sources/
 run:
 	./bin/Memorias.exe
 clean:
-	rm ./bin/Memorias.exe
+	rm -rf ./bin/Memorias.exe
