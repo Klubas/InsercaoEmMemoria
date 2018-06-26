@@ -39,14 +39,14 @@ void grava_memoria(Mem *mem, Processo *proc, int pos);
 //elimina um processo na memoria desejada
 int matar_processo(int, Mem *mem); 
 
-//retorna qual é o estado da memória
-void estado(Mem *, int);	
-
 //lista todos os processos criados e ativos(pids)
 void lista_processos(Mem *);
 
 //lista a lacunas (tamanhos)
 void lista_lacunas(Mem *);
+
+//lista a memoria
+void lista_memoria(Mem *);
 
 //retorna a maior lacuna
 int maior_lacuna(Mem *mem);

@@ -164,6 +164,10 @@ void lista_lacunas(Mem *mem){
 	imprimeLista(mem->lacunas.prox);
 }
 
+void lista_memoria(Mem *mem){
+	imprimeLista(&mem->inicio);
+}
+
 //retorna o tamanho da maior lacuna
 int maior_lacuna(Mem *mem){
 	int i, tam;
@@ -210,20 +214,4 @@ void contar_lacunas(Mem *mem){
 	if(tam > 0) insereLista(tam, &mem->lacunas, 1); 
 	
 	mem->qtd_lacunas = tamLista(&mem->lacunas) - 1;
-}
-
-//exibe estado da memoria
-void estado(Mem *mem, int mostrar) {
-	contar_lacunas(mem);
-	printf("|  Mem [%cf] :", mem->tipo); 
-	if(mostrar){
-		printf("\n|\n|");
-		imprimeLista(&mem->inicio); printf("\n|");
-	}
-	printf("\n|  Capacidade      :\t%d KB", mem->tam);
-	printf("\n|  Ocupado         :\t%d KB", mem->tam_ocupado);
-	printf("\n|  Processos       :\t%d\t", mem->qtd_processos); lista_processos(mem);
-	printf("\n|  Lacunas         :\t%d\t", mem->qtd_lacunas); lista_lacunas(mem);
-	printf("\n|  Maior lacuna    :\t%d KB", maior_lacuna(mem));
-	printf("\n|  Menor Lacuna    :\t%d KB\n", menor_lacuna(mem));
 }

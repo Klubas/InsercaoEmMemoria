@@ -9,7 +9,7 @@ int main(){
 	int tam;
 	printf("|-----------------------------------------------------------------------------------\n");
 	printf("|\n");
-	printf("|  Definir o tamanho das memórias:\n");
+	printf("|  Defina o tamanho das memórias:\n");
 	printf("|\n > ");
 	scanf("%d", &tam);
 	

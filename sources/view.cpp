@@ -65,6 +65,22 @@ void mostrar_mem(int mostrar){
 	printf("|-----------------------------------------------------------------------------------\n");
 }
 
+//exibe estado da memoria
+void estado(Mem *mem, int mostrar) {
+	contar_lacunas(mem);
+	printf("|  Mem [%cf] :", mem->tipo); 
+	if(mostrar){
+		printf("\n|\n|");
+		lista_memoria(mem); printf("\n|");
+	}
+	printf("\n|  Capacidade      :\t%3d KB", mem->tam);
+	printf("\n|  Ocupado         :\t%3d KB", mem->tam_ocupado);
+	printf("\n|  Processos       :\t%3d\t", mem->qtd_processos); lista_processos(mem);
+	printf("\n|  Lacunas         :\t%3d\t", mem->qtd_lacunas); lista_lacunas(mem);
+	printf("\n|  Maior lacuna    :\t%3d KB", maior_lacuna(mem));
+	printf("\n|  Menor Lacuna    :\t%3d KB\n", menor_lacuna(mem));
+}
+
 //funcao usada para tratar o retorno das funcoes de memoria.cpp
 void retorno(int func, const char* nome, char mem, int pid){
 	if(func == 0){
@@ -73,8 +89,8 @@ void retorno(int func, const char* nome, char mem, int pid){
 		else if (strcmp(nome, "matar_processo") == 0) printf("Processo PID[%d] não existe.\n", pid);
 	} else if (func > 0) {
 		printf("|  Mem [%cf] { Sucesso : %s (%d) : Retorno [%d] } ", mem, nome, pid, func);
-		if(strcmp(nome, "novo_processo") == 0) printf("Processo PID[%d] criado.\n", pid);
-		else if (strcmp(nome, "matar_processo") == 0) printf("Processo PID[%d] morto.\n", pid);
+		if(strcmp(nome, "novo_processo") == 0) printf("Processo PID[%d] iniciado.\n", pid);
+		else if (strcmp(nome, "matar_processo") == 0) printf("Processo PID[%d] finalizado.\n", pid);
 	} else if (func < 0) {
 		printf("|  Mem [%cf] { Error   : %s (%d) : Retorno [%d] } ", mem, nome, pid, func);
 		if(strcmp(nome, "novo_processo") == 0) printf("Erro ao criar processo.\n");
