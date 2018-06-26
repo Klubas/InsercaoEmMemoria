@@ -60,6 +60,7 @@ void contar_lacunas(Mem *mem);
 //retorna 1 ou 0 se a Mem estiver vazia
 int vazio(Mem *);
 
+//retorna 1 ou 0 se a Mem estiver cheia
 int cheio(Mem *);
 
 #endif

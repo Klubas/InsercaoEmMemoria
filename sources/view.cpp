@@ -5,26 +5,10 @@
 #include "../includes/processo.h"
 #include "../includes/view.h"
 
-int pid = 10, mostrar = 1;
-
+//declaração das memórias
 Mem mem0, mem1, mem2, mem3;
 
-//funcao usada para tratar o retorno das funcoes de memoria.cpp
-void retorno(int func, const char* nome, char mem, int pid){
-	if(func == 0){
-		printf("|  Mem [%cf] { Falha   : %s (%d) : Retorno [%d] } ", mem, nome, pid, func);
-		if(strcmp(nome, "novo_processo") == 0) printf("Memória Insuficiente.\n");
-		else if (strcmp(nome, "matar_processo") == 0) printf("Processo %d não existe.\n", pid);
-	} else if (func > 0) {
-		printf("|  Mem [%cf] { Sucesso : %s (%d) : Retorno [%d] } ", mem, nome, pid, func);
-		if(strcmp(nome, "novo_processo") == 0) printf("Processo %d criado.\n", pid);
-		else if (strcmp(nome, "matar_processo") == 0) printf("Processo %d morto.\n", pid);
-	} else if (func < 0) {
-		printf("|  Mem [%cf] { Error   : %s (%d) : Retorno [%d] } ", mem, nome, pid, func);
-		if(strcmp(nome, "novo_processo") == 0) printf("Erro ao criar processo.\n");
-		else if (strcmp(nome, "matar_processo") == 0) printf("Erro ao matar o processo %d.\n", pid);
-	}
-}
+int pid = 10, mostrar = 1;
 
 //define o tamanho das memórias
 void init_mem(int tam){
@@ -43,19 +27,7 @@ void init_mem(int tam){
 	criar(&mem1);	
 	criar(&mem2);	
 	criar(&mem3);
-}
 
-//mostra qual o estado das memórias
-void mostrar_mem(int mostrar){
-	printf("|-----------------------------------------------------------------------------------\n");
-	estado(&mem0, mostrar);
-	printf("|-----------------------------------------------------------------------------------\n");
-	estado(&mem1, mostrar);
-	printf("|-----------------------------------------------------------------------------------\n");
-	estado(&mem2, mostrar);
-	printf("|-----------------------------------------------------------------------------------\n");
-	estado(&mem3, mostrar);
-	printf("|-----------------------------------------------------------------------------------\n");
 }
 
 //insere um novo processo em todas as memórias
@@ -80,6 +52,37 @@ void matar_processos(int pid){
 	printf("|\n");
 }
 
+//mostra qual o estado das memórias
+void mostrar_mem(int mostrar){
+	printf("|-----------------------------------------------------------------------------------\n");
+	estado(&mem0, mostrar);
+	printf("|-----------------------------------------------------------------------------------\n");
+	estado(&mem1, mostrar);
+	printf("|-----------------------------------------------------------------------------------\n");
+	estado(&mem2, mostrar);
+	printf("|-----------------------------------------------------------------------------------\n");
+	estado(&mem3, mostrar);
+	printf("|-----------------------------------------------------------------------------------\n");
+}
+
+//funcao usada para tratar o retorno das funcoes de memoria.cpp
+void retorno(int func, const char* nome, char mem, int pid){
+	if(func == 0){
+		printf("|  Mem [%cf] { Falha   : %s (%d) : Retorno [%d] } ", mem, nome, pid, func);
+		if(strcmp(nome, "novo_processo") == 0) printf("Memória Insuficiente.\n");
+		else if (strcmp(nome, "matar_processo") == 0) printf("Processo PID[%d] não existe.\n", pid);
+	} else if (func > 0) {
+		printf("|  Mem [%cf] { Sucesso : %s (%d) : Retorno [%d] } ", mem, nome, pid, func);
+		if(strcmp(nome, "novo_processo") == 0) printf("Processo PID[%d] criado.\n", pid);
+		else if (strcmp(nome, "matar_processo") == 0) printf("Processo PID[%d] morto.\n", pid);
+	} else if (func < 0) {
+		printf("|  Mem [%cf] { Error   : %s (%d) : Retorno [%d] } ", mem, nome, pid, func);
+		if(strcmp(nome, "novo_processo") == 0) printf("Erro ao criar processo.\n");
+		else if (strcmp(nome, "matar_processo") == 0) printf("Erro ao matar o processo %d.\n", pid);
+	}
+}
+
+//menu
 int menu(){
 	int op, aux = 1;
 	char x;

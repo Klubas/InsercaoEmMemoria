@@ -6,11 +6,13 @@
 int main(){
 	setlocale(LC_ALL, "Portuguese");
 
-	int tam=10;
+	int tam;
+
 	printf("|\n");
 	printf("|  Definir o tamanho das memórias:\n");
 	printf("|\n > ");
 	scanf("%d", &tam);
+	
 	if(tam <= 0) {
 		printf("|\n");
 		printf("|  Tamanho invalido, saindo...\n");

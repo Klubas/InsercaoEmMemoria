@@ -2,6 +2,7 @@
 
 #include "../includes/lista.h"
 
+//insere valor na lista e retorna o struct criado
 No insereLista(int valor, No *lista, int ordenada){
 	No *atual;
 	No *anterior = NULL;
@@ -32,6 +33,7 @@ No insereLista(int valor, No *lista, int ordenada){
 	return *aux; //sucesso
 }
 
+//mostra os valores da lista
 void imprimeLista(No *lista){
 	No *aux;
 	int i = 0;
@@ -45,6 +47,7 @@ void imprimeLista(No *lista){
 	printf("  ]");
 }
 
+//remove o valor na POSICAO da lista
 int removeLista(int posicao, No *lista){	
 	int i = 0;
 	No *anterior = lista;
@@ -70,17 +73,19 @@ int removeLista(int posicao, No *lista){
 	return 0; //elemento removido
 }
 
-//ineficiente, gasta memoria, tem que arrumar
+//remove todos os valores da lista
 void limpaLista(No *lista){
 	int i = 0, tam = tamLista(lista);
 	for(i = tam; i > 0; i--) 
 		removeLista(i, lista);
 }
 
+//altera o valor em no por novo_valor
 void alteraDado(int novo_valor, No *no){
 	no->dado=novo_valor;	//troca o dado do No por novo_valor
 }
 
+//retorna o no do VALOR
 No buscaLista(int valor, No *lista){
 	No *aux = lista;
 	while(aux != NULL){
@@ -92,6 +97,7 @@ No buscaLista(int valor, No *lista){
 	return *aux;
 }
 
+//retorna a posicao do VALOR
 int buscaListaPos(int valor, No *lista){
 	int i = 0;
 	No *aux = lista;
@@ -105,6 +111,7 @@ int buscaListaPos(int valor, No *lista){
 	return -1;
 }
 
+//retorna o valor da POSICAO
 int recuperaListaValor(int posicao, No *lista){
 	int i = 1;
 	No *aux = lista;
@@ -121,6 +128,7 @@ int recuperaListaValor(int posicao, No *lista){
 	else return -2; 					//posicao invalida
 }
 
+//retorna a struct da POSICAO
 No recuperaLista(int posicao, No *lista){
 	int i = 1;
 	No *aux = lista;
@@ -136,6 +144,7 @@ No recuperaLista(int posicao, No *lista){
 	return *aux->prox; 					//posicao invalida
 }
 
+//retorna a quantidade de itens da lista
 int tamLista(No *lista){
 	No *aux = lista;
 	int i = 0;
@@ -145,6 +154,7 @@ int tamLista(No *lista){
 	return i;
 }
 
+//retorna a quantidade de elementos e tem na lista
 int contaElementos(No *lista, int e){
 	No *aux = lista;
 	int i = 0;
