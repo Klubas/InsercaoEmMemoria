@@ -41,7 +41,7 @@ int quality_fit(Mem *mem, Processo *proc, const char tipo_fit){
 		case 'b': //best fit
 			aux = mem->lacunas.prox;
 			while(aux != NULL){
-				if(melhor_lacuna - proc->tam > aux->dado - proc->tam)
+				if(melhor_lacuna - proc->tam > aux->dado - proc->tam && aux->dado >= proc->tam)
 					melhor_lacuna = aux->dado;
 				aux=aux->prox;
 			}
